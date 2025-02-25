@@ -88,6 +88,8 @@ export async function requestOpenai(req: NextRequest) {
     }
   }
 
+  path = path.replace(/deployments\/[^/]+/, "");
+
   const fetchUrl = cloudflareAIGatewayUrl(`${baseUrl}/${path}`);
   console.log("fetchUrl", fetchUrl);
   const fetchOptions: RequestInit = {
