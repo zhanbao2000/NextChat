@@ -57,25 +57,25 @@ export const DEFAULT_CONFIG = {
 
   disablePromptHint: false,
 
-  dontShowMaskSplashScreen: false, // dont show splash screen when create chat
+  dontShowMaskSplashScreen: true, // dont show splash screen when create chat
   hideBuiltinMasks: false, // dont add builtin masks
 
   customModels: "",
   models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
-    model: "gpt-4o-mini" as ModelType,
-    providerName: "OpenAI" as ServiceProvider,
-    temperature: 0.5,
-    top_p: 1,
-    max_tokens: 4000,
+    model: "deepseek-r1-arisa" as ModelType,
+    providerName: "Azure" as ServiceProvider,
+    temperature: 0.7,
+    top_p: 0.95,
+    max_tokens: 1000,
     presence_penalty: 0,
     frequency_penalty: 0,
     sendMemory: true,
     historyMessageCount: 4,
     compressMessageLengthThreshold: 1000,
-    compressModel: "",
-    compressProviderName: "",
+    compressModel: "deepseek-r1-arisa",
+    compressProviderName: "Azure",
     enableInjectSystemPrompts: true,
     template: config?.template ?? DEFAULT_INPUT_TEMPLATE,
     size: "1024x1024" as ModelSize,
