@@ -3,6 +3,7 @@ import {
   isDalle3,
   safeLocalStorage,
   trimTopic,
+  trimThink,
 } from "../utils";
 
 import { indexedDBStorage } from "@/app/utils/indexedDB-storage";
@@ -718,7 +719,7 @@ export const useChatStore = createPersistStore(
                   session,
                   (session) =>
                     (session.topic =
-                      message.length > 0 ? trimTopic(message) : DEFAULT_TOPIC),
+                      message.length > 0 ? trimThink(trimTopic(message)) : DEFAULT_TOPIC),
                 );
               }
             },
@@ -782,6 +783,7 @@ export const useChatStore = createPersistStore(
             },
             onFinish(message, responseRes) {
               if (responseRes?.status === 200) {
+                message = trimThink(message);
                 console.log("[Memory] ", message);
                 get().updateTargetSession(session, (session) => {
                   session.lastSummarizeIndex = lastSummarizeIndex;

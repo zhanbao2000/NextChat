@@ -13,6 +13,11 @@ import { VISION_MODEL_REGEXES, EXCLUDE_VISION_MODEL_REGEXES } from "./constant";
 import { useAccessStore } from "./store";
 import { ModelSize } from "./typing";
 
+export function trimThink(text: string) {
+  // fix for DeepSeek-R1 in Azure
+  return text.replace(/<think>[\s\S]*?<\/think>\n*/g, "");
+}
+
 export function trimTopic(topic: string) {
   // Fix an issue where double quotes still show in the Indonesian language
   // This will remove the specified punctuation from the end of the string
