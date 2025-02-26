@@ -609,9 +609,9 @@ export function streamWithThink(
               if (remainText.length > 0) {
                 remainText += "\n";
               }
-              // If new thinking block starts with \n, remove it
+              // If new thinking block starts with \n, remove all of them
               if (chunk.content.startsWith("\n")) {
-                  chunk.content = chunk.content.slice(1);
+                  chunk.content = chunk.content.replace(/^\n+/, "");
               }
               remainText += "> " + chunk.content;
             } else {
