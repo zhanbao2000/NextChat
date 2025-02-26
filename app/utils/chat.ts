@@ -609,17 +609,13 @@ export function streamWithThink(
               if (remainText.length > 0) {
                 remainText += "\n";
               }
-              // If new thinking block starts with \n, remove all of them
-              if (chunk.content.startsWith("\n")) {
-                  chunk.content = chunk.content.replace(/^\n+/, "");
-              }
               remainText += "> " + chunk.content;
             } else {
               // Handle newlines in thinking content
               if (chunk.content.includes("\n\n")) {
                 const lines = chunk.content.split("\n\n");
                 remainText += lines.join("\n\n> ");
-              } else {
+              } else if (chunk.content != "\n") {
                 remainText += chunk.content;
               }
             }
