@@ -401,6 +401,7 @@ export function streamWithThink(
   let isInThinkingMode = false;
   let lastIsThinking = false;
   let lastIsThinkingTagged = false; //between <think> and </think> tags
+  let thinkStartTime = 0;
 
   // animate response to make it looks smooth
   function animateResponseText() {
@@ -587,6 +588,7 @@ export function streamWithThink(
               chunk.isThinking = true;
               chunk.content = chunk.content.slice(7).trim();
               lastIsThinkingTagged = true;
+              thinkStartTime = Date.now();
             } else if (chunk.content.endsWith("</think>")) {
               chunk.isThinking = false;
               chunk.content = chunk.content.slice(0, -8).trim();
@@ -624,6 +626,10 @@ export function streamWithThink(
             if (isInThinkingMode || isThinkingChanged) {
               // If switching from thinking mode to normal mode
               isInThinkingMode = false;
+              remainText += `\n> （本次思考耗时 ${(
+                (Date.now() - thinkStartTime) /
+                1000
+              ).toFixed(1)} 秒）`;
               remainText += "\n\n" + chunk.content;
             } else {
               remainText += chunk.content;
