@@ -420,6 +420,8 @@ export function streamWithThink(
   let lastIsThinking = false;
   let lastIsThinkingTagged = false; //between <think> and </think> tags
   let thinkingStartTime = 0;
+  let tokenCount = 0;
+  const responseStartTime = Date.now();
 
   // animate response to make it looks smooth
   function animateResponseText() {
@@ -518,6 +520,21 @@ export function streamWithThink(
       }
       console.debug("[ChatAPI] end");
       finished = true;
+
+      // Calculate statistics
+      const endTime = Date.now();
+      const elapsedSeconds = (endTime - responseStartTime) / 1000;
+      const tokensPerSecond = (tokenCount / elapsedSeconds).toFixed(2);
+
+      const statsMessage = `\n\n> （本次响应总耗时 ${elapsedSeconds.toFixed(
+        1,
+      )} 秒，消耗 ${tokenCount} tokens，平均速度 ${tokensPerSecond} tps）`;
+
+      // onFinish will check if responseText is empty, so we only append stats when there's content to avoid formatting issues
+      if (responseText.length > 0) {
+        remainText += statsMessage;
+      }
+
       options.onFinish(responseText + remainText, responseRes);
     }
   };
@@ -599,6 +616,8 @@ export function streamWithThink(
           if (!chunk?.content || chunk.content.length === 0) {
             return;
           }
+
+          tokenCount += 1;
 
           // deal with <think> and </think> tags start
           if (!chunk.isThinking) {
