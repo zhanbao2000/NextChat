@@ -74,7 +74,7 @@ export const DEFAULT_CONFIG = {
     sendMemory: true,
     historyMessageCount: 4,
     compressMessageLengthThreshold: 1000,
-    compressModel: "deepseek-r1-arisa",
+    compressModel: "deepseek-v3-arisa",
     compressProviderName: "Azure",
     enableInjectSystemPrompts: true,
     template: config?.template ?? DEFAULT_INPUT_TEMPLATE,
