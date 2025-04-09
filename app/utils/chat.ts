@@ -541,12 +541,33 @@ export function streamWithThink(
 
   controller.signal.onabort = finish;
 
+  function removeStatisticsFromMessages(messages: any[]) {
+    const statsPattern =
+      /\n\n> （本次响应总耗时 \d+\.\d+ 秒，消耗 \d+ tokens，平均速度 \d+\.\d+ tps）/g;
+
+    return messages.map((message) => {
+      if (typeof message.content === "string") {
+        return {
+          ...message,
+          content: message.content.replace(statsPattern, ""),
+        };
+      }
+      return message;
+    });
+  }
+
   function chatApi(
     chatPath: string,
     headers: any,
     requestPayload: any,
     tools: any,
   ) {
+    if (requestPayload.messages) {
+      requestPayload.messages = removeStatisticsFromMessages(
+        requestPayload.messages,
+      );
+    }
+
     const chatPayload = {
       method: "POST",
       body: JSON.stringify({
