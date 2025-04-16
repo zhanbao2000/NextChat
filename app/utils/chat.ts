@@ -676,7 +676,11 @@ export function streamWithThink(
                 const lines = chunk.content.split("\n\n");
                 remainText += lines.join("\n> \n> ");
               } else if (chunk.content != "\n") {
-                remainText += chunk.content;
+                if (chunk.content.startsWith("\n")) {
+                  remainText += "\n> " + chunk.content.substring(1);
+                } else {
+                  remainText += chunk.content;
+                }
               }
             }
           } else {
